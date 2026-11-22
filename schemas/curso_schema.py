@@ -1,11 +1,11 @@
 from typing import Optional
-from pydantic import BaseModel, Field
+from pydantic import BaseModel
 
 class CursoSchema(BaseModel):
     id: Optional[int] = None
-    nome: str = Field(..., max_length=100)
-    aulas: int = Field(..., gt=0)
-    horas: int = Field(..., gt=0)
-    
+    titulo: str
+    aulas: int
+    horas: int
+
     class Config:
-        orm_mode = True
+        from_attributes = True

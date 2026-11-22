@@ -1,0 +1,90 @@
+name: CI - Docker DB & FastAPI Tests
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+
+jobs:
+  docker-db-check:
+    name: Validar Build e Subida do Banco (Docker)
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Criar .env temporário para validação do Docker Compose
+        run: |
+          cat <<EOF > .env
+          POSTGRES_USER=postgres
+          POSTGRES_PASSWORD=test_password
+          POSTGRES_DB=faculdade_fastapi_test
+          POSTGRES_PORT=5433
+          SQLALCHEMY_DATABASE_URI=postgresql+asyncpg://postgres:test_password@localhost:5433/faculdade_fastapi_test
+          EOF
+
+      - name: Validar configuração do docker-compose.yml
+        run: docker compose config --quiet
+
+      - name: Subir container do PostgreSQL
+        run: docker compose up -d --wait
+
+      - name: Verificar saúde do PostgreSQL no container
+        run: docker compose exec -T db pg_isready -U postgres -d faculdade_fastapi_test
+
+      - name: Derrubar containers
+        if: always()
+        run: docker compose down -v
+
+  api-tests:
+    name: Testes Unitários e de Rotas (Python ${{ matrix.python-version }})
+    needs: docker-db-check
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        python-version: ["3.11", "3.12"]
+
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: test_password
+          POSTGRES_DB: faculdade_fastapi_test
+        ports:
+          - 5433:5432
+        options: >-
+          --health-cmd "pg_isready -U postgres -d faculdade_fastapi_test"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 5
+
+    env:
+      PROJECT_NAME: "fastapi_sqlalchemy"
+      API_V1_STR: "/api/v1"
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: test_password
+      POSTGRES_DB: faculdade_fastapi_test
+      POSTGRES_PORT: 5433
+      SQLALCHEMY_DATABASE_URI: "postgresql+asyncpg://postgres:test_password@localhost:5433/faculdade_fastapi_test"
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+          cache: "pip"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Run pytest on API routes
+        run: pytest -v

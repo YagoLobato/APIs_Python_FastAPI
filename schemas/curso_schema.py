@@ -1,5 +1,6 @@
 from typing import Optional
-from pydantic import BaseModel
+from pydantic import BaseModel, ConfigDict
+
 
 class CursoSchema(BaseModel):
     id: Optional[int] = None
@@ -7,5 +8,4 @@ class CursoSchema(BaseModel):
     aulas: int
     horas: int
 
-    class Config:
-        from_attributes = True
+    model_config = ConfigDict(from_attributes=True)

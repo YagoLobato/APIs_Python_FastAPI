@@ -1,6 +1,6 @@
 from core.config import settings
 from core.database import engine
-import models.all_models 
+import models.__all_models 
 
 async def criar_tabelas():
     print("criando tabelas...")

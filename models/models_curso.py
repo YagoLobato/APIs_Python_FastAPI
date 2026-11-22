@@ -1,7 +1,7 @@
 from core.config import settings
-from sqlachemy import Column, Integer, String  
+from sqlalchemy import Column, Integer, String  
 
-class CursoModel(settings.SQLALCHEMY_DATABASE_URI):
+class CursoModel(settings.DBBaseModel):
     __tablename__ = "cursos"
     
     id = Column(Integer, primary_key=True, index=True)

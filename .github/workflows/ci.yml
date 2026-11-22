@@ -87,4 +87,4 @@ jobs:
           pip install -r requirements.txt
 
       - name: Run pytest on API routes
-        run: pytest -v
+        run: python -m pytest -v

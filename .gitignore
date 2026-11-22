@@ -1,2 +1,20 @@
+# Ambiente virtual
 venv_secao4/
+.venv/
+venv/
+env/
+
+# Variáveis de ambiente com senhas reais
+.env
+
+# Cache e arquivos compilados do Python
+__pycache__/
+*.py[cod]
+*$py.class
 __init__.py
+
+# Configurações de IDE / Sistema
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db

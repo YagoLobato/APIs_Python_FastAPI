@@ -19,7 +19,7 @@ async def listar_cursos(session: AsyncSession = Depends(get_session)):
         return cursos
 
 
-@router.post("/s", response_model=CursoSchema, status_code=status.HTTP_201_CREATED)
+@router.post("/", response_model=CursoSchema, status_code=status.HTTP_201_CREATED)
 async def criar_curso(curso: CursoSchema, session: AsyncSession = Depends(get_session)):
     novo_curso = CursoModel(titulo=curso.titulo, aulas=curso.aulas, horas=curso.horas)
     session.add(novo_curso)

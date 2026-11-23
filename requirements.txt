@@ -2,11 +2,14 @@ annotated-doc==0.0.7
 annotated-types==0.8.0
 anyio==4.16.0
 asyncpg==0.32.0
+bcrypt==4.0.1
 certifi==2026.11.20
 cffi==2.1.1
 click==8.5.1
 cryptography==50.0.2
+dnspython==2.9.2
 ecdsa==0.19.2
+email-validator==2.4.0
 fastapi==0.165.0
 greenlet==3.5.6
 h11==0.16.0

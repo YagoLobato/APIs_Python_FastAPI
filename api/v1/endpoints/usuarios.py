@@ -9,7 +9,7 @@ from core.auth import autenticar_usuario, criar_token_acesso
 from core.deps import get_session, get_usuario_logado
 from core.security import gerar_hash_senha
 from models.models_usuarios import UsuarioModel
-from schemas.usuario_schema import (
+from schemas.usuarios_schema import (
     UsuarioSchemaBase,
     UsuarioSchemaCreate,
     UsuarioSchemaArtigos,

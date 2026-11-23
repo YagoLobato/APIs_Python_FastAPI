@@ -11,4 +11,10 @@ class UsuarioModel(settings.DBBaseModel):
     senha = Column(String)
     ativo = Column(Boolean, default=True)
     eh_admin = Column(Boolean, default=False)
-    artigos = relationship("ArtigoModel", back_populates="autor", lazy="joined", cascade="all, delete-orphan", uselist=False)
+    artigos = relationship(
+        "ArtigoModel",
+        back_populates="autor",
+        lazy="selectin",
+        cascade="all, delete-orphan",
+        uselist=True,
+    )

@@ -1,26 +1,28 @@
 from typing import Optional, List
-from pydantic import BaseModel, EmailStr
+from pydantic import BaseModel, ConfigDict, EmailStr
 
 from schemas.artigos_schema import ArtigoSchema
+
 
 class UsuarioSchemaBase(BaseModel):
     id: Optional[int] = None
     nome: str
     email: EmailStr
-    senha: str
     ativo: bool = True
     eh_admin: bool = False
 
-    class Config:
-        orm_mode = True
+    model_config = ConfigDict(from_attributes=True)
+
 
 class UsuarioSchemaCreate(UsuarioSchemaBase):
     senha: str
-    
+
+
 class UsuarioSchemaArtigos(UsuarioSchemaBase):
-    artigos: Optional[List[ArtigoSchema]] = []
-    
-class UsuaruioSchemaUpdate(UsuarioSchemaBase):
+    artigos: List[ArtigoSchema] = []
+
+
+class UsuarioSchemaUpdate(UsuarioSchemaBase):
     nome: Optional[str] = None
     email: Optional[EmailStr] = None
     senha: Optional[str] = None

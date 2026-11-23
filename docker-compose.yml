@@ -1,3 +1,5 @@
+name: fastapi_udemy
+
 services:
   db:
     image: postgres:16-alpine
@@ -15,6 +17,27 @@ services:
       - postgres_data:/var/lib/postgresql/data
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  # Banco descartável para rodar os testes localmente.
+  # Só sobe com: docker compose --profile test up -d --wait db_test
+  # Os dados ficam em memória (tmpfs) e somem quando o container para.
+  db_test:
+    image: postgres:16-alpine
+    container_name: fastapi_udemy_db_test
+    profiles: ["test"]
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: test_password
+      POSTGRES_DB: faculdade_fastapi_test
+    ports:
+      - "5434:5432"
+    tmpfs:
+      - /var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d faculdade_fastapi_test"]
       interval: 5s
       timeout: 5s
       retries: 5

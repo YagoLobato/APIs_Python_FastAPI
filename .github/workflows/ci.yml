@@ -70,6 +70,7 @@ jobs:
       POSTGRES_DB: faculdade_fastapi_test
       POSTGRES_PORT: 5433
       SQLALCHEMY_DATABASE_URI: "postgresql+asyncpg://postgres:test_password@localhost:5433/faculdade_fastapi_test"
+      JWT_SECRET_KEY: "chave-apenas-para-testes"
 
     steps:
       - name: Checkout repository

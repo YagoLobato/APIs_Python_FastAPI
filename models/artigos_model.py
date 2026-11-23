@@ -9,4 +9,5 @@ class ArtigoModel(settings.DBBaseModel):
     titulo = Column(String, index=True)
     url_fonte = Column(String)
     usuario_id = Column(Integer, ForeignKey("usuarios.id"))
+    descricao = Column(String)
     autor = relationship("UsuarioModel", back_populates="artigos", lazy="joined")

@@ -18,3 +18,11 @@ class UsuarioSchemaCreate(UsuarioSchemaBase):
     senha: str
     
 class UsuarioSchemaArtigos(UsuarioSchemaBase):
+    artigos: Optional[List[ArtigoSchema]] = []
+    
+class UsuaruioSchemaUpdate(UsuarioSchemaBase):
+    nome: Optional[str] = None
+    email: Optional[EmailStr] = None
+    senha: Optional[str] = None
+    ativo: Optional[bool] = None
+    eh_admin: Optional[bool] = None

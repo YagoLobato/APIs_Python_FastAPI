@@ -9,7 +9,7 @@ from core.database import async_session
 from core.security import verificar_senha
 from core.config import settings
 from core.auth import oauth2_schema
-from models.usuario_model import UsuarioModel
+from models.models_usuarios import UsuarioModel
 
 async def get_session() -> Generator:
     session: AsyncSession = async_session()

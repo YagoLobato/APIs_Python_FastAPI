@@ -173,6 +173,11 @@ async def login(
             detail="Dados de acesso incorretos.",
             status_code=status.HTTP_400_BAD_REQUEST,
         )
+    if not usuario.ativo:
+        raise HTTPException(
+            detail="Usuário inativo.",
+            status_code=status.HTTP_403_FORBIDDEN,
+        )
 
     return {
         "access_token": criar_token_acesso(sub=usuario.email),

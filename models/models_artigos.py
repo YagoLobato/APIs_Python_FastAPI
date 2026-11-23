@@ -1,6 +1,7 @@
 from core.config import settings
 from sqlalchemy import Column, Integer, String, ForeignKey
-from sqlalchemy.orm import relationship 
+from sqlalchemy.orm import relationship
+
 
 class ArtigoModel(settings.DBBaseModel):
     __tablename__ = "artigos"
@@ -8,6 +9,7 @@ class ArtigoModel(settings.DBBaseModel):
     id = Column(Integer, primary_key=True, index=True, autoincrement=True)
     titulo = Column(String, index=True)
     url_fonte = Column(String)
-    usuario_id = Column(Integer, ForeignKey("usuarios.id"))
     descricao = Column(String)
-    autor = relationship("UsuarioModel", back_populates="artigos", lazy="joined")
+    usuario_id = Column(Integer, ForeignKey("usuarios.id"), nullable=False)
+
+    autor = relationship("UsuarioModel", back_populates="artigos", lazy="selectin")

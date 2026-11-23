@@ -1,3 +1,3 @@
 from models.models_curso import CursoModel
-from models.models_artigo import ArtigoModel
-from models.usuario_model import UsuarioModel
+from models.models_artigos import ArtigoModel
+from models.models_usuarios import UsuarioModel
